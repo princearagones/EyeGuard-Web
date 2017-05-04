@@ -1,0 +1,10 @@
+require('./client/index.html');
+window.jQuery = window.$ = require('jquery');
+require('lodash');
+require('angular-material/angular-material.css');
+require('angular');
+require('angular-aria');
+require('angular-sanitize');
+require('angular-animate');
+require('angular-material');
+require('angular-ui-router');

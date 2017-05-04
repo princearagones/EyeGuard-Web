@@ -1,0 +1,1 @@
+INSERT INTO COMPANY (Name, Code) VALUES ("UPLB", "asd123");
