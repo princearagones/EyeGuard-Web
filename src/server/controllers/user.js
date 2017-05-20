@@ -94,7 +94,7 @@ exports.getOne = function(req, res, next){
                 console.log(req, "ERROR", "Error: User not found!");
                 res.send(404, "Error: User not found!");
             } else {
-                console.log(req, "SUCCESS", "RETRIEVED details of "+req.params.UserID);
+                console.log(req, "SUCCESS", "RETRIEVED details of "+req.params.user_id);
                 res.send(rows);
             }
         }
@@ -121,5 +121,35 @@ exports.checkSession = function (req, res, next) {
     }else{
         return res.send("SESSION");
     }
+}
+
+exports.validate = function(req, res, next){
+	db.query("UPDATE User SET IsVerified = 1 WHERE ID = ?",
+		 [req.body.user_id], function (err, rows) {
+		    if(err) {
+		        return next(err);
+		    }
+		    res.send(rows);
+	});
+}
+
+exports.getLocation = function(req, res, next){
+	db.query("SELECT * FROM Location WHERE UserID = ? AND Time LIKE CONCAT(?,'%') AND isReport = false ORDER BY Time",
+		 [req.params.user_id, req.params.date], function (err, rows) {
+		    if(err) {
+		        return next(err);
+		    }
+		    res.send(rows);
+	});
+}
+
+exports.getReport = function(req, res, next){
+	db.query("SELECT * FROM Report WHERE UserID = ? ORDER BY DateSubmitted",
+		 [req.params.user_id], function (err, rows) {
+		    if(err) {
+		        return next(err);
+		    }
+		    res.send(rows);
+	});
 }
 

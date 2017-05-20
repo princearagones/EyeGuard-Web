@@ -3,13 +3,13 @@
     <div class="nav-wrapper container">
       <a id="logo-container" href="#" class="brand-logo">EyeGuard</a>
       <ul class="right hide-on-med-and-down">
-        <li><a href="#">Log In</a></li>
-        <li><a href="#">Sign Up</a></li>
+        <li><a ng-click="goToAnchor('login-page')">Log In</a></li>
+        <li><a ui-sref="signup">Sign Up</a></li>
         <li><a href="#">About Us</a></li>
       </ul>
 
       <ul id="nav-mobile" class="side-nav">
-        <li><a href="#">Log In</a></li>
+        <li><a ui-sref="admin">Log In</a></li>
         <li><a href="#">Sign Up</a></li>
         <li><a href="#">About Us</a></li>
       </ul>
@@ -32,7 +32,7 @@
 
       </div>
     </div>
-    <div class="parallax"><img src="/public/images/background-phone.png" alt="Unsplashed background img 1"></div>
+    <div class="parallax"><img src="/public/images/background1.jpg" alt="Unsplashed background img 1"></div>
   </div>
 
 
@@ -87,11 +87,11 @@
   <div class="container">
     <div class="section">
 
-      <div class="row">
-        <div class="col s12 center">
+      <div class="row center">
+        <div class="col s6 offset-s3">
           <h3><i class="mdi-content-send brown-text"></i></h3>
 
-          <div id="login-page" class="row">
+        <div id="login-page" class="row anchor">
 		    <div class="col s12 z-depth-4 card-panel">
 		      <form class="login-form">
 		        <div class="row">
@@ -154,10 +154,6 @@
     </div>
     <div class="parallax"><img src="/public/images/background-map.png" alt="Unsplashed background img 3"></div>
   </div>
-
-<!--   <footer class="page-footer background-blue">
-  		<div ng-include="/views/partials/footer.html">
-  </footer> -->
 
 
   <!--  Scripts-->

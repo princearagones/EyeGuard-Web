@@ -1,0 +1,21 @@
+<div class="container">
+    <div class="row">
+        <div class="col s3">
+            <table class="bordered highlight">
+                <thead>
+                    <tr>
+                        <th>Users</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr id="{{guard.ID}}" data="{{guard.ID}}" ng-repeat="guard in guards" ng-click="viewInfo(guard.ID)">
+                        <td>{{ guard.LastName + ', ' +guard.FirstName}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <ui-view></ui-view>
+    </div>
+</div>
+
+

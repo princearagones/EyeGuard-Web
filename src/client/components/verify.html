@@ -1,0 +1,22 @@
+<div class="container">
+    <div class="row">
+        <div class="col s6">
+			<table class="highlight">
+			    <thead>
+			        <tr>
+			            <th>Name</th>
+			            <th>Accept</th>
+			            <th>Reject</th>
+			        </tr>
+			    </thead>
+			    <tbody>
+			        <tr ng-repeat="guard in guards">
+			            <td>{{ guard.LastName + ', ' +guard.FirstName}}</td>
+			            <td><a user_id={{guard.ID}} class="green waves-effect waves-light btn" ng-click="verify()"><i class="material-icons left">thumb_up</i>Verify</a></td>       
+			            <td><a class="red waves-effect waves-light btn"><i class="material-icons left">thumb_down</i>Reject</a></td>
+			        </tr>
+			    </tbody>
+			</table>
+		</div>
+	</div>
+</div>

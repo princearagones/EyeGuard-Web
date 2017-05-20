@@ -1,0 +1,93 @@
+
+  <nav class="white" role="navigation">
+    <div class="nav-wrapper container">
+      <a id="logo-container" href="#" class="brand-logo">EyeGuard</a>
+      <ul class="right hide-on-med-and-down">
+        <li><a href="/">Log In</a></li>
+        <li><a ui-sref="signup">Sign Up</a></li>
+        <li><a href="#">About Us</a></li>
+      </ul>
+
+      <ul id="nav-mobile" class="side-nav">
+        <li><a ui-sref="admin">Log In</a></li>
+        <li><a href="#">Sign Up</a></li>
+        <li><a href="#">About Us</a></li>
+      </ul>
+      <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="material-icons">menu</i></a>
+    </div>
+  </nav>
+
+<div class="col s12 m12 l6">
+    <div class="card-panel">
+      <h4 class="header2">Sign up</h4>
+      <div class="row">
+        <form class="col s12">
+          <div class="row">
+            <div class="input-field col s6">
+              <i class="mdi-action-account-circle prefix"></i>
+              <input id="firstName" type="text" class="validate">
+              <label for="first_name">First Name</label>
+            </div>
+            <div class="input-field col s6">
+              <i class="mdi-action-account-circle prefix"></i>
+              <input id="lastName" type="text" class="validate">
+              <label for="first_name">Last Name</label>
+            </div>
+          </div>
+          <div class="row">
+            <div class="input-field col s12">
+              <i class="mdi-communication-email prefix"></i>
+              <input id="username" type="text" class="validate">
+              <label for="user_name">Username</label>
+            </div>
+          </div>
+          <div class="row">
+            <div class="input-field col s6">
+              <i class="mdi-action-lock-outline prefix"></i>
+              <input id="password" type="password" class="validate">
+              <label for="password">Password</label>
+            </div>
+            <div class="input-field col s6">
+              <i class="mdi-action-lock-outline prefix"></i>
+              <input id="repassword" type="password" class="validate">
+              <label for="password">Re-Enter Password</label>
+            </div>
+          </div>
+          <div class="row">
+            <div class="input-field col s12">
+              <i class="mdi-communication-email prefix"></i>
+              <input id="email" type="email" class="validate">
+              <label for="email">Email</label>
+            </div>
+          </div>
+          <div class="row">
+              <div class="input-field col s5">
+                <button class="btn cyan waves-effect waves-light right">
+                	<a ui-sref=".generate" style="color:white;"> Generate new company code </a>
+                  <i class="mdi-content-send right"></i>
+                </button>
+              </div>
+              <div class="input-field col s5">
+                <button class="btn cyan waves-effect waves-light right">
+                	<a ui-sref=".existing" style="color:white;"> Use existing company code </a>
+                  <i class="mdi-content-send right"></i>
+                </button>
+              </div>
+            </div>
+            <div ui-view>
+            </div>
+            <div class="row">
+              <div class="input-field col s12">
+                <button id="submit_signup" class="btn cyan waves-effect waves-light right" type="submit" name="action">Submit
+                  <i class="mdi-content-send right"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script type="text/javascript" src="public/js/jquery.min.js"></script>
+  <script type="text/javascript" src="public/js/materialize.js"></script>

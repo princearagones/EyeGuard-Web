@@ -1,0 +1,153 @@
+<div class="col s9">
+        <div class="row">
+            <h5>Name: {{FirstName}} {{LastName}}</h5>
+        </div>
+        <div class="row">
+            <h4>Reports</h4>
+            <table class="highlight">
+                <thead>
+                    <tr>
+                        <th>Type</th>
+                        <th>Remarks</th>
+                        <th>Location</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="report in reports" class="report{{report.isRead}}">
+                        <td>{{report.Type}}</td>
+                        <td>{{report.Remarks}}</td>
+                        <td>{{report.LocationName}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <h4>Path Taken</h4>
+    <div id="map" style="height: 400px; width: 100%;"></div>
+</div>
+<style>
+.report0{
+    color:blue;
+}
+.report1{
+    color:black;
+}
+</style>
+
+<!-- <script async defer src="https://maps.googleapis.com/maps/api/js?v=3&sensor=false&callback=initMap"> </script> -->
+<script type="text/javascript">
+    var map;
+      var geocoder;
+        function initMap() {
+        var locations = [{lat:14.167325,lng:121.24325},{lat:14.167248,lng:121.243301},{lat:14.167019,lng:121.243333}];
+        // var locations = $scope.locations;
+        map = new google.maps.Map(document.getElementById('map'), {
+          zoom: 80,
+          center: locations[0],
+          mapTypeId: 'terrain'
+        });
+        var directionsDisplay = new google.maps.DirectionsRenderer();
+        var directionsService = new google.maps.DirectionsService();
+        calculateAndDisplayRoute(locations[0],locations[1],
+        directionsService, directionsDisplay);
+        for(var i = 0; i < locations.length; i++){
+          if(i < locations.length-1){
+            calculateAndDisplayRoute( new google.maps.LatLng(locations[i].lat, locations[i].lng),new google.maps.LatLng(locations[i+1].lat, locations[i+1].lng),directionsService, directionsDisplay);
+          }
+          var marker = new google.maps.Marker({
+            position: locations[i],
+            map: map
+          });
+        }
+        directionsDisplay.setMap(map);
+      }
+
+      var polylineOptions = {
+        strokeColor: '#C83939',
+        strokeOpacity: 1,
+        strokeWeight: 4
+      };
+      var walkingPolylineOptions = {
+        strokeColor: '#C83939',
+        strokeOpacity: 0,
+        strokeWeight: 4,
+        icons: [{
+          icon: {
+            path: google.maps.SymbolPath.CIRCLE,
+            fillColor: '#C83939',
+            fillOpacity: 1,
+            scale: 2,
+            strokeColor: '#C83939',
+            strokeOpacity: 1,
+          },
+          offset: '0',
+          repeat: '10px'
+        }]
+      };
+      var walkingPolylineOptions2 = {
+        strokeColor: '#C83939',
+        strokeOpacity: 0,
+        strokeWeight: 4,
+        icons: [{
+          icon: {
+            path: google.maps.SymbolPath.CIRCLE,
+            fillColor: '#808080',
+            fillOpacity: 1,
+            scale: 2,
+            strokeColor: '#808080',
+            strokeOpacity: 1,
+          },
+          offset: '0',
+          repeat: '10px'
+        }]
+      };
+           
+
+      function calculateAndDisplayRoute(start, end, directionsService, directionsDisplay) {
+        directionsService.route({
+          origin: start,
+          destination: end,
+          travelMode: google.maps.TravelMode.WALKING
+        }, function(response, status) {
+          if (status === google.maps.DirectionsStatus.OK) {
+            // directionsDisplay.setDirections(response);
+            // console.log(end.toUrlValue(6));
+            renderDirectionsPolylines(response, start, end);
+          } else {
+            window.alert('Directions request failed due to ' + status);
+          }
+        });
+      }
+
+      function renderDirectionsPolylines(response, start, end) {
+          var legs = response.routes[0].legs;
+          var bounds = new google.maps.LatLngBounds();
+          for (i = 0; i < legs.length; i++) {
+            var steps = legs[i].steps;
+            for (j = 0; j < steps.length; j++) {
+              var nextSegment = steps[j].path;
+              var stepPolyline = new google.maps.Polyline(polylineOptions);
+              if (steps[j].travel_mode == google.maps.TravelMode.WALKING) {
+                stepPolyline.setOptions(walkingPolylineOptions)
+              }
+              for (k = 0; k < nextSegment.length; k++) {
+                stepPolyline.getPath().push(nextSegment[k]);
+                bounds.extend(nextSegment[k]);
+              }
+              stepPolyline.setMap(map);
+            }
+          }
+          if (google.maps.geometry.spherical.computeDistanceBetween(start, stepPolyline.getPath().getAt(0)) > 1) {
+            // add "dotted line"
+            var extraLine1 = new google.maps.Polyline(walkingPolylineOptions2);
+            extraLine1.setPath([stepPolyline.getPath().getAt(stepPolyline.getPath().getLength() - 1), end]);
+            extraLine1.setMap(map);
+          }
+          if (google.maps.geometry.spherical.computeDistanceBetween(end, stepPolyline.getPath().getAt(stepPolyline.getPath().getLength() - 1)) > 1) {
+            // add "dotted line"
+            var extraLine2 = new google.maps.Polyline(walkingPolylineOptions2);
+            extraLine2.setPath([stepPolyline.getPath().getAt(stepPolyline.getPath().getLength() - 1), end]);
+            extraLine2.setMap(map);
+          }
+          map.fitBounds(bounds);
+        }
+</script>

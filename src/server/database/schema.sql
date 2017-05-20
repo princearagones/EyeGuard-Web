@@ -25,6 +25,7 @@ CREATE TABLE Admin(
 	Password varchar(20) NOT NULL,
 	Email varchar(50) NOT NULL,
 	CompanyID int NOT NULL,
+	IsSuperAdmin BOOLEAN DEFAULT FALSE,
 	CONSTRAINT CompanyID_FK FOREIGN KEY (CompanyID) REFERENCES Company(ID)
 );
 
@@ -59,6 +60,7 @@ CREATE TABLE Location(
 	Latitude double,
 	Longhitude double,
 	UserID int NOT NULL,
+	isReport BOOLEAN DEFAULT false,
 	CONSTRAINT Location_UserID_FK FOREIGN KEY (UserID) REFERENCES User(ID)
 );
 
@@ -67,8 +69,9 @@ CREATE TABLE Report(
 	Type varchar(255),
 	Remarks varchar(255),
 	LocationName varchar(255),
-	LocationID int NOT NULL,
-	CONSTRAINT Report_LocationID_FK FOREIGN KEY (UserID) REFERENCES User(ID),
+	LocationID int,
+	DateSubmitted TIMESTAMP,
+	isRead BOOLEAN DEFAULT false,
 	UserID int NOT NULL,
 	CONSTRAINT Report_UserID_FK FOREIGN KEY (UserID) REFERENCES User(ID)
 );
@@ -77,5 +80,5 @@ CREATE TABLE Attendance(
 	TimeIn TIME,
 	TimeOut TIME,
 	UserID int NOT NULL,
-	CONSTRAINT Report_UserID_FK FOREIGN KEY (UserID) REFERENCES User(ID)
+	CONSTRAINT Attendance_UserID_FK FOREIGN KEY (UserID) REFERENCES User(ID)
 );
