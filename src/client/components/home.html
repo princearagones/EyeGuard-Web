@@ -9,15 +9,15 @@
       </ul>
 
       <ul id="nav-mobile" class="side-nav">
-        <li><a ui-sref="admin">Log In</a></li>
-        <li><a href="#">Sign Up</a></li>
+        <li><a ng-click="goToAnchor('login-page')">Log In</a></li>
+        <li><a ui-sref="signup">Sign Up</a></li>
         <li><a href="#">About Us</a></li>
       </ul>
       <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="material-icons">menu</i></a>
     </div>
   </nav>
 
-  <div id="index-banner" class="parallax-container">
+  <div id="index-banner" class="parallax-container" style="background-image: url(/public/images/background1.jpg);background-repeat: no-repeat;background-size: cover; ">
     <div class="section no-pad-bot">
       <div class="container">
         <br><br>
@@ -26,13 +26,13 @@
           <h5 class="header col s12 light">A web-android based application for security purposes</h5>
         </div>
         <div class="row center">
-          <a href="http://materializecss.com/getting-started.html" id="download-button" class="btn-large waves-effect waves-light background-blue lighten-1">Get Started</a>
+          <a ng-click="goToAnchor('login-page')" id="download-button" class="btn-large waves-effect waves-light background-blue lighten-1">Get Started</a>
         </div>
         <br><br>
 
       </div>
     </div>
-    <div class="parallax"><img src="/public/images/background1.jpg" alt="Unsplashed background img 1"></div>
+    <!-- <div class=""><img src="/public/images/background1.jpg" alt="Unsplashed background img 1"></div> -->
   </div>
 
 
@@ -43,28 +43,28 @@
       <div class="row">
         <div class="col s12 m4">
           <div class="icon-block">
-            <h2 class="center brown-text"><i class="material-icons">flash_on</i></h2>
-            <h5 class="center">Speeds up development</h5>
+            <h2 class="center blue-text"><i class="material-icons">location_on</i></h2>
+            <h5 class="center">Location oriented</h5>
 
-            <p class="light">We did most of the heavy lifting for you to provide a default stylings that incorporate our custom components. Additionally, we refined animations and transitions to provide a smoother experience for developers.</p>
+            <p class="light">We want you to have the most accurate and dependable way to get your locations of supervision. The application will use GPS and network functionalities of getting longhitude and latitude. In case of its absence of failure, the application will use a prediction algorithm using native phone tools such as accelerometer and compass.</p>
           </div>
         </div>
 
         <div class="col s12 m4">
           <div class="icon-block">
-            <h2 class="center brown-text"><i class="material-icons">group</i></h2>
-            <h5 class="center">User Experience Focused</h5>
+            <h2 class="center blue-text"><i class="material-icons">group</i></h2>
+            <h5 class="center">Lighten up work</h5>
 
-            <p class="light">By utilizing elements and principles of Material Design, we were able to create a framework that incorporates components and animations that provide more feedback to users. Additionally, a single underlying responsive system across all platforms allow for a more unified user experience.</p>
+            <p class="light">This application aims to make supervision on a large vicinity. The application would provide you a workplace where you can store your data like reports and location free from the knowledge of your workers</p>
           </div>
         </div>
 
         <div class="col s12 m4">
           <div class="icon-block">
-            <h2 class="center brown-text"><i class="material-icons">settings</i></h2>
+            <h2 class="center blue-text"><i class="material-icons">settings</i></h2>
             <h5 class="center">Easy to work with</h5>
 
-            <p class="light">We have provided detailed documentation as well as specific code examples to help new users get started. We are also always open to feedback and can answer any questions a user may have about Materialize.</p>
+            <p class="light">The application aims to provide you self documenting icons, functionalities, and buttons. We would also provided a user manual for the application to maximize this application's potential</p>
           </div>
         </div>
       </div>
@@ -77,7 +77,7 @@
     <div class="section no-pad-bot">
       <div class="container">
         <div class="row center">
-          <h5 class="header col s12 light">A modern responsive front-end framework based on Material Design</h5>
+          <h5 class="header col s12 light">An android friendly application for your employees</h5>
         </div>
       </div>
     </div>
@@ -101,14 +101,14 @@
 		        </div>
 		        <div class="row margin">
 		          <div class="input-field col s12">
-		            <i class="mdi-social-person-outline prefix"></i>
+		            <i class="material-icons prefix">person_pin</i>
 		            <input id="username" type="text" ng-model="username">
 		            <label for="username" class="center-align">Username</label>
 		          </div>
 		        </div>
 		        <div class="row margin">
 		          <div class="input-field col s12">
-		            <i class="mdi-action-lock-outline prefix"></i>
+		            <i class="material-icons prefix">lock_outline</i>
 		            <input id="password" type="password" ng-model="password">
 		            <label for="password">Password</label>
 		          </div>
@@ -148,7 +148,7 @@
     <div class="section no-pad-bot">
       <div class="container">
         <div class="row center">
-          <h5 class="header col s12 light">A modern responsive front-end framework based on Material Design</h5>
+          <h5 class="header col s12 light">Locate your employees on their convinience without them knowing!</h5>
         </div>
       </div>
     </div>

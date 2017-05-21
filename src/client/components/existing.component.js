@@ -6,6 +6,7 @@
         .module('app')
         .component('existingComponent', {
             template: require('./existing.html'),
+            controller: ExistingController,
             bindings: {
             }
         });

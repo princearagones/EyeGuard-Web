@@ -11,4 +11,4 @@ INSERT INTO Location (UserID, Latitude, Longhitude, Time) VALUES (1,14.167248,12
 INSERT INTO Location (UserID, Latitude, Longhitude, Time) VALUES (1,14.167019,121.243333, NOW());
 
 INSERT INTO Location (UserID, Latitude, Longhitude, Time, isReport) VALUES(1,14.167325,121.243450, NOW(), true);
-INSERT INTO Report (Type, Remarks, LocationName)
+INSERT INTO Report (Type, Remarks, LocationName, LocationID, DateSubmitted, UserID) Values ("Facility", "Broken windows", "Right Side of Admin Building", 4, NOW(), 1);

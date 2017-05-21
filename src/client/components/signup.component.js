@@ -117,8 +117,8 @@
                                                     return Materialize.toast("Error in adding Admin",2500);
                                                 }else{
                                                     console.log(data4);
-                                                    return Materialize.toast("Successfully registered as Super Admin",2500);
                                                      window.location.assign("/");
+                                                    return Materialize.toast("Successfully registered as Super Admin",2500);
                                                 }
                                             },function(err){
                                                 return Materialize.toast("Problem adding admin",2500)
@@ -148,14 +148,15 @@
                         url: '/api/getOneByCode/' + companyCode,
                         dataType: "JSON"
                     }).then(function(data){
-                        if(data.data[0] && confirm("Are you sure you want to apply for "+data.data[0].Name+"?" ) == true){
+                        console.log(data);
+                        if(data.data && confirm("Are you sure you want to apply for "+data.data.Name+"?" ) == true){
                             var admin = {
                                 lastname: lastName,
                                 firstname: firstName,
                                 username: username,
                                 password: password,
                                 email: email,
-                                companyid: data.data[0].ID,
+                                companyid: data.data.ID,
                                 issuperadmin: false
                             };
                             $http({
@@ -168,8 +169,8 @@
                                     return Materialize.toast("Error in adding Admin",2500);
                                 }else{
                                     console.log(data1);
-                                    return Materialize.toast("Successfully registered as Admin",2500);
                                     window.location.assign("/");
+                                    return Materialize.toast("Successfully registered as Admin",2500);
                                 }
                             },function(err){
                                 return Materialize.toast("Problem adding admin",2500)

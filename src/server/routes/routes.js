@@ -13,8 +13,14 @@ module.exports = (router) => {
     router.get('/api/user/:user_id', 					__.user.getOne);
     router.get('/api/user/location/:user_id/:date', 	__.user.getLocation);
     router.get('/api/user/reports/:user_id', 			__.user.getReport);
-    // router.get('/api/user/username/:username', 			__.user.getOneByUsername);
+    router.get('/api/user/username/:username', 			__.user.getOneByUsername);
     router.put('/api/user/validate', 					__.user.validate);
+    router.post('/api/user/add', 						__.user.add);
+    router.post('/api/user/delete',					__.user.remove);
+
+    router.post('/api/report/add',						__.report.add);
+
+    router.post('/api/android/login',					__.user.loginAndroid);
 
     router.get('/api/getUnverifiedUsers/:id',			__.admin.getUnverifiedUsers);
     router.get('/api/getUsers/:id',						__.admin.getUsers);

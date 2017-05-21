@@ -70,6 +70,47 @@ exports.login = function(req, res, next){
 	    });
 };
 
+exports.loginAndroid = function(req, res, next){
+	var username = req.body.username;
+    var password = req.body.password;
+
+    // if (req.session.username) {
+    //     console.log(req, "FAILED", 'Someone is already logged in.');
+    //     return res.status(400).send("Someone is already logged in.");
+    // }
+
+    if (!username) {
+        console.log(req, "FAILED", 'Username cannot be blank.');
+        return res.status(400).send("Username cannot be blank.");
+    }
+    if (!password) {
+        console.log(req, "FAILED", 'Password cannot be blank.');
+        return res.status(400).send("Password cannot be blank.");
+    }
+
+    db.query("SELECT username FROM User WHERE username= ? " , 
+        [username], function (err, rows) {
+        if(err) {
+            return next(err);
+        }
+        if(rows.length) {
+            db.query("SELECT * FROM User WHERE username = ? AND password = ?",
+                [username, password], function (err2, rows2) {
+                if(err2) {
+                    return next(err2);
+                }
+		        if (rows2.length) {
+		            console.log("SUCCESS", 'Successfully logged in.');
+		            return res.send(rows2[0]);
+		        } 
+            });
+		}else {
+	            console.log(req, "FAILED", 'Username not Found!');
+	            return res.status(400).send("Username not Found!");
+	        }
+	    });
+};
+
 exports.logout = function (req, res, next) {
     if (!req.session.username) {
         console.log(req, "FAILED", "No one is logged in.");
@@ -152,4 +193,62 @@ exports.getReport = function(req, res, next){
 		    res.send(rows);
 	});
 }
+
+exports.getOneByUsername = function(req, res, next){
+	db.query("SELECT * FROM User WHERE Username = ?",
+		 [req.params.username], function (err, rows) {
+		    if(err) {
+		        return next(err);
+		    }
+		    res.send(rows[0]);
+	});
+}
+
+exports.add = function(req,res,next){
+	db.query("SELECT * FROM User WHERE Username = ?",
+		[req.body.username],
+		function(err,rows){
+			if(rows[0]){
+				console.log(req, "ERROR", "Username already exists");
+				return res.send(400,"Username already exists");
+			}
+			else{
+				console.log("Adding user");
+				db.query("INSERT INTO User (LastName, FirstName, Username, Password, Email, CompanyID) VALUES (?,?,?,?,?,?)",
+					[req.body.lastname, req.body.firstname, req.body.username, req.body.password, req.body.email, req.body.companyid],
+					function(err1,rows1){
+						if(err1){
+							console.log(req, "ERROR", "Cannot add user");
+							return next(err1);
+						}
+						console.log("SUCCESS", "Added a user");
+						res.send(rows1[0]);
+					}
+				);
+			}
+		}
+	);
+}
+
+
+exports.remove = function(req,res,next){
+	db.query("DELETE FROM User WHERE ID = ?",
+		[req.body.user_id],
+		function(err,row){
+			if(err){
+				console.log(req, "ERROR", "Cannot remove user");
+				return next(err);
+			}
+			if(row.affectedRows == 1){
+				console.log("SUCCESS", "Deleted a user");
+				res.send(row);
+			}
+			else{
+				console.log(req, "ERROR", "Cannot remove user");
+				res.end();
+			}
+		});
+}
+
+
 

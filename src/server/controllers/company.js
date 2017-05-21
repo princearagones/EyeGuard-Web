@@ -37,7 +37,7 @@ exports.getOneByCode = function(req, res, next){
                 return next(err);
 			}
 			console.log(req, "SUCCESS", "Retrieved Company");
-            res.send(rows);
+            res.send(rows[0]);
 		}
 	);
 }
@@ -51,7 +51,7 @@ exports.getOneByID = function(req, res, next){
                 return next(err);
 			}
 			console.log(req, "SUCCESS", "Retrieved Company");
-            res.send(rows);
+            res.send(rows[0]);
 		}
 	);
 }

@@ -15,7 +15,7 @@ exports.getUnverifiedUsers = function(req, res, next){
     		console.log(req, "ERROR", "Error: MySQL Query of users failed");
     		return next(err);
     	}
-    	console.log(req, "SUCCESS", "RETRIEVED top 10 students from "+req.params.class_id);
+    	console.log(req, "SUCCESS", "RETRIEVED unverfied users users from "+req.params.class_id);
         res.send(rows);
     });
 }
@@ -32,7 +32,7 @@ exports.getUsers = function(req, res, next){
     		console.log(req, "ERROR", "Error: MySQL Query of users failed");
     		return next(err);
     	}
-    	console.log(req, "SUCCESS", "RETRIEVED top 10 students from "+req.params.class_id);
+    	console.log(req, "SUCCESS", "RETRIEVED  verified users from "+req.params.class_id);
         res.send(rows);
     });
 }

@@ -13,6 +13,5 @@
         
     function GenerateController($scope, $http, $location) {
         const vm = this;   
-        console.log("generate");
     }
 })();

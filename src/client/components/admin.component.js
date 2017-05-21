@@ -10,6 +10,7 @@
             bindings: {
             }
         });
+
     function AdminController($scope, $http, UserService){
     	const vm = this;
         $http({
