@@ -2,7 +2,8 @@
     angular
         .module('app', [
             'ui.router',
-            'ngMaterial'
+            'ngMaterial',
+            'ngMap'
         ]);
     
     require('./app.router');

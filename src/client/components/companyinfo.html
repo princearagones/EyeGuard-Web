@@ -1,6 +1,129 @@
 <div class="container">
 	<div class="row">
-		<h3><i class="material-icons large">supervisor_account</i> Company name: {{companyName}}</h3>
-		<h4><i class="material-icons large">lock_outline</i> Company code: {{companyCode}}</h4>
+		<div class="col s5">
+			<h4><i class="material-icons large">supervisor_account</i></h4>
+			<h5>Company name: {{companyName}}</h5>
+		</div>
+		<div class="col s5">
+			<h4><i class="material-icons large">lock_outline</i></h4>
+			<h5>Company code: {{companyCode}}</h5>
+		</div>
+	</div>
+	<div class="row">
+        <div class="col s8">
+            <table class="bordered highlight">
+                <thead>
+                    <tr>
+                        <th>Recent Reports</th>
+                    </tr>
+                </thead>
+            </table>
+          
+             <div style="max-height: 300px;overflow-y:scroll; ">
+            <table class="highlight">
+            	<thead>
+                    <tr>
+                        <th>Type</th>
+                        <th>Location</th>
+                        <th>Date</th>
+                        <th>Patrol</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="report in companyReports" class="report{{report.isRead}}">
+                        <td>{{report.Type}}</td>
+                        <td>{{report.LocationName}}</td>
+                        <td>{{report.DateSubmitted.split("T")[0]}}</td>
+                        <td>{{report.userName}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="col s3">
+    	<h5>Patrols present at: </h5>
+    	<h6>{{cur_date}}</h6>
+    	<table class="highlight">
+	    	<tr ng-repeat="patrol in patrolsPresent" id="patrol{{patrol.ID}}">
+	    		<td><img ng-src= "{{patrol.iconSrc}}"/></td>
+	            <td>{{patrol.LastName}}, {{patrol.FirstName}}</td>
+	        </tr>
+    	</table>
+    </div>
+</div>
+    <br/>
+    <div class="row">
+    	<h5>Path Taken</h5>
+        <div class="row">
+          <div class="col s10">
+        <label for="Date">Date</label>
+        <input id="date" type="date" class="datepicker">
+      </div>
+      <div class="col s2">
+        <button id="changeDate" class="valign-wrapper waves-effect waves-light btn" ng-click="updateLocation()">Change Date</button>
+      </div>
+      </div>
+      <h6 id="noLocMsg">No Location path taken at that date</h6>
+      <div id="time-slider row">
+        <div class="col s5">
+          From:
+        <input id="time_from" type="time" name="usr_time">
+        </div>  
+         <div class="col s5">
+          To:
+        <input id="time_to" type="time" name="usr_time">
+        </div>  
+      </div>
+      <br/>
+      <div id="mapPanel">
+        <ng-map 
+          id = "map1"
+          zoom="20"
+          center="{{path[0]}}"
+          map-type-id="TERRAIN">
+          <!-- <marker ng-repeat="pos in markers" position="{{pos.lat}}, {{pos.lng}}"></marker> -->
+          <!-- <shape name="polyline" path="{{path}}" geodesic="true" stroke-color={{color[0]}} stroke-opacity="1.0" stroke-weight="2"> -->
+
+         </shape>
+       </ng-map>
+      </div>
+
 	</div>
 </div>
+
+<script type="text/javascript">
+  $('select').material_select();
+  $('.datepicker').pickadate({
+    selectMonths: true, // Creates a dropdown to control month
+    selectYears: 15, // Creates a dropdown of 15 years to control year
+    format: 'yyyy-mm-dd'
+  });
+  $('#date').val(convertDate(new Date()));
+  $('#date_request').val("All");
+  function convertDate(date) {
+  var yyyy = date.getFullYear().toString();
+  var mm = (date.getMonth()+1).toString();
+  var dd  = date.getDate().toString();
+
+  var mmChars = mm.split('');
+  var ddChars = dd.split('');
+
+  return yyyy + '-' + (mmChars[1]?mm:"0"+mmChars[0]) + '-' + (ddChars[1]?dd:"0"+ddChars[0]);
+}
+  $('.dropdown-button').dropdown({
+      inDuration: 300,
+      outDuration: 225,
+      constrainWidth: false, // Does not change width of dropdown to that of the activator
+      hover: true, // Activate on hover
+      gutter: 0, // Spacing from edge
+      belowOrigin: false, // Displays dropdown below the button
+      alignment: 'left', // Displays dropdown with edge aligned to the left of button
+      stopPropagation: false // Stops event propagation
+    }
+  );
+
+    Materialize.updateTextFields();
+        
+</script>
+
+  <script type="text/javascript" src="public/js/nouislider.js"></script>

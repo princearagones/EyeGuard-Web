@@ -26,6 +26,7 @@ app.use(
 );
 
 app.use('/public',express.static(__dirname+"./../client/public"));
+app.use('/bower_components',express.static(__dirname+"./../../bower_components"));
 app.use('/', require(__dirname + '/routes/routes.js')(express.Router()));
 
 app.get('/', function(req, res) {

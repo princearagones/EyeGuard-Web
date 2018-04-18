@@ -15,3 +15,22 @@ exports.add = function(req,res,next){
 		}
 	);
 }
+
+exports.getRecentByCompany = function(req, res, next){
+	db.query("SELECT * FROM Report WHERE UserID in (SELECT ID FROM User where CompanyID = ?)  ORDER BY DateSubmitted",
+        [req.params.company_id],
+        function (err, rows) {
+            if (err) {
+                console.log(req, "ERROR", "MySQL Query Error");
+                return next(err);
+            }
+            if (rows.length === 0) {
+                console.log(req, "ERROR", "Error: Company "+req.params.company_id+" not found");
+                res.send(rows);
+            } else {
+                console.log(req, "SUCCESS", "RETRIEVED details of "+req.params.company_id);
+                res.send(rows);
+            }
+        }
+    );
+}

@@ -7,6 +7,8 @@
                         <th>Users</th>
                     </tr>
                 </thead>
+            </table>
+            <table class="bordered highlight" style="max-height:200px;overflow-y:scroll; ">
                 <tbody>
                     <tr id="{{guard.ID}}" data="{{guard.ID}}" ng-repeat="guard in guards" ng-click="viewInfo(guard.ID)">
                         <td>{{ guard.LastName + ', ' +guard.FirstName}}</td>

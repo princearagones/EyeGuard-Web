@@ -35,12 +35,21 @@
                     return Materialize.toast("No Verified users",2500);
                 }
                 $scope.guards = data.data;
+                $scope.guards.sort(compare);
+                console.log($scope.guards);
             },function(err){
                 return Materialize.toast("Error in getting verified users. Please try again!",2500);
             });
         },function(err){
             return Materialize.Toast("Error in getting Company ID",2500);
         })
+    }
+    function compare(a,b) {
+      if (a.LastName+a.FirstName < b.LastName+b.FirstName)
+        return -1;
+      if (a.LastName+a.FirstName > b.LastName+b.FirstName)
+        return 1;
+      return 0;
     }
 })();
 

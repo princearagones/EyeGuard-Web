@@ -93,7 +93,7 @@
 
         <div id="login-page" class="row anchor">
 		    <div class="col s12 z-depth-4 card-panel">
-		      <form class="login-form">
+		      <form class="login-form" ui-keypress="{13:'enterLogin($event)'}">
 		        <div class="row">
 		          <div class="input-field col s12 center">
 		            <p class="header s12 center login-form-text">Sign In</p>
@@ -157,6 +157,8 @@
 
 
   <!--  Scripts-->
+  
+  <script type="text/javascript" src="public/js/nouislider.js"></script>
   <script type="text/javascript" src="public/js/jquery.min.js"></script>
   <script type="text/javascript" src="public/js/materialize.js"></script>
   <script type="text/javascript" src="public/js/init.js"></script>

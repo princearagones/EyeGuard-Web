@@ -8,3 +8,4 @@ require('angular-sanitize');
 require('angular-animate');
 require('angular-material');
 require('angular-ui-router');
+require('ngmap');

@@ -25,6 +25,18 @@
             $anchorScroll();
           }
         };
+
+        $scope.enterLogin = function (e){
+            alert("Enter pressed");
+        }
+
+        // $('#login-page').addEventListener('keypress', function (e) {
+        //     var key = e.which || e.keyCode;
+        //     if (key === 13) { // 13 is enter
+        //       alert("enter is presseed")
+        //     }
+        // });
+
         $('#login').click(function(){
             if($('#username').val() === "" || $('#password').val() === ""){
                 Materialize.toast("Missing Username or password",2500);
