@@ -65,21 +65,37 @@
       </div>
       <h6 id="noLocMsg">No Location path taken at that date</h6>
       <div id="time-slider row">
-        <div class="col s5">
+        <div class="col s3">
           From:
         <input id="time_from" type="time" name="usr_time">
         </div>  
-         <div class="col s5">
+         <div class="col s3">
           To:
         <input id="time_to" type="time" name="usr_time">
-        </div>  
+        </div> 
+
+
+        <form action="#">
+        <div class="col s2">
+        <p>
+   		   <input type="checkbox" id="showPath" checked="checked" />
+	       <label for="showPath">Show Path</label>
+	   </p>
+  		</div>
+        <div class="col s2">
+	     <p>
+   		   <input type="checkbox" id="showReport" checked="checked" />
+	       <label for="showReport">Show Reports</label>
+	   </p>
+  		</div>
+  		</form>
       </div>
       <br/>
       <div id="mapPanel">
         <ng-map 
           id = "map1"
           zoom="20"
-          center="{{path[0]}}"
+          center="{{center}}"
           map-type-id="TERRAIN">
           <!-- <marker ng-repeat="pos in markers" position="{{pos.lat}}, {{pos.lng}}"></marker> -->
           <!-- <shape name="polyline" path="{{path}}" geodesic="true" stroke-color={{color[0]}} stroke-opacity="1.0" stroke-weight="2"> -->

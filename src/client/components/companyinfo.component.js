@@ -86,6 +86,96 @@
             return Materialize.Toast("Error in getting Company ID",2500);
         });
 
+        $scope.showPath = true;
+        $scope.showReport = true;
+        $scope.time_change = false;
+        $scope.coloredMarkers = [];
+        $scope.reportMarkers = [];
+        $scope.coloredPaths = [];
+
+        $("#time_from").change(function(){
+            $scope.time_change = true;
+            // console.log(time_change);
+            $scope.updateLocation();
+            // console.log(time_change);
+
+        });
+
+        $("#time_to").change(function(){
+            $scope.time_change = true;
+            $scope.updateLocation();
+        });
+
+        $("#time_to").change(function(){
+            $scope.time_change = true;
+            $scope.updateLocation();
+        });
+
+        $("#showPath").change(function(){
+            $scope.showPath = ($('#showPath').is(':checked'));
+            $scope.updateLocation();
+        });
+
+        $("#showReport").change(function(){
+            $scope.showReport = ($('#showReport').is(':checked'));
+            $scope.updateLocation();
+        });
+
+
+        function showReportMarker(reports, map, paths,markers){
+        for(var i=0; i<reports.length;i++){
+            if (reports[i].DateSubmitted.split("T")[0] == "2018-04-27"){
+                console.log(reports[i]);
+                console.log(paths[reports[i].UserID]);
+                for(var j=0;j<paths[reports[i].UserID].length-1;j++){
+                    
+                    // console.log(paths[reports[i].UserID][j]);
+                    // console.log((reports[i].DateSubmitted));
+                    // console.log((paths[reports[i].UserID][j].Time));
+                    if(getTime(reports[i].DateSubmitted) > getTime(paths[reports[i].UserID][j].Time) &&
+                        getTime(reports[i].DateSubmitted) < getTime(paths[reports[i].UserID][j+1].Time)){
+                        console.log($scope.guards);
+                        var reporter;
+                        for(var k = 0; k<$scope.guards.length;k++){
+                            if($scope.guards[k].ID == reports[i].UserID){
+                                reporter = $scope.guards[k].LastName + ", "+ $scope.guards[k].FirstName;
+                                break;
+                            }
+                        }
+                        var contentString = '<div id="content">'+
+                        '<div id="siteNotice">'+
+                        '</div>'+
+                        '<h3 id="firstHeading" class="firstHeading">'+reports[i].Type +'</h3>'+
+                        '<div id="bodyContent">'+
+                        '<p><b>Location Name:</b>'+reports[i].LocationName+'</p>'+
+                        '<p><b>Date:</b>'+reports[i].DateSubmitted+'</p>'+
+                        '<p><b>Remarks:</b>'+reports[i].Remarks+'</p>'+
+                        '<p><b>Reported by :</b>'+reporter+'</p>'+
+                        '</div>'+
+                        '</div>';
+
+                        var infowindow = new google.maps.InfoWindow({
+                          content: contentString,
+                          maxHeight: 200
+                        });
+                        console.log(paths[reports[i].UserID][j]);
+                        var reportMark = new google.maps.Marker();
+                          // position: new google.maps.LatLng(paths[reports[i].UserID][j].Latitude,paths[reports[i].UserID][j].Longhitude);
+                          // position: new google.maps.LatLng( 14.1646151,121.2421228)
+                        reportMark.setPosition(new google.maps.LatLng(paths[reports[i].UserID][j].Latitude,paths[reports[i].UserID][j].Longhitude));
+                        reportMark.setMap(map);
+                        reportMark.addListener('click', function() {
+                          infowindow.open(map, reportMark);
+                        });
+                        markers.push(reportMark);
+                        break;
+                    }
+                }
+            }
+        }
+     }
+
+
 
         $scope.updateLocation = function(){
             var date = $('#date').val();
@@ -93,10 +183,24 @@
             var iconPath = "/public/images/gMapIcons/";
             var iconColors = ["brown","red", "orange", "yellow","paleblue","blue","green","darkgreen","pink","purple"];
             $scope.cur_date = date;
-
+            console.log("time_change is "+$scope.time_change);
 
            NgMap.getMap({id:'map1'}).then(function(map) {
                        $scope.mainMap = map;
+                       for(i = 0;i< $scope.coloredPaths.length;i++){
+                                $scope.coloredPaths[i].setMap(null);
+                        }
+                        for(var i = 0; i< $scope.coloredMarkers.length;i++){
+                            for(var j=0; j< $scope.coloredMarkers[i].length;j++){
+                                    $scope.coloredMarkers[i][j].setMap(null);
+                            }
+                        }
+                         for(i = 0;i< $scope.reportMarkers.length;i++){
+                                $scope.reportMarkers[i].setMap(null);
+                        }
+                        $scope.coloredMarkers = [];
+                        $scope.coloredPaths = [];
+                        $scope.reportMarkers = [];
                 });
             $http({
                 method: 'GET',
@@ -107,88 +211,86 @@
                     return Materialize.Toast("Error in getting locations",2500);
                 }
             
-                $scope.locations = [];
-                $scope.paths = _.groupBy(data.data,"UserID");
+                // $scope.locations = [];
+                $scope.paths = _.groupBy(data.data,"UserID"); //sorts location plots by users
+                if(data.data[0] != undefined){ //gets the center of the map
+                    $scope.center = [data.data[0].Latitude,data.data[0].Longhitude]; 
+                }
 
                 $scope.patrolsPresent = new Array()
                 for(var i=0;i<Object.keys($scope.paths).length;i++){
                     // console.log(Object.keys($scope.paths)[i]); //userIDs
                     var userID = Object.keys($scope.paths)[i];
-                    // $scope.guards;
                     var obj = findObjectByKey($scope.guards, 'ID', userID);
-                    obj.iconSrc = new Image().src = iconPath + iconColors[i%iconColors.length]+ "_MarkerA.png";
+                    obj.iconSrc = new Image().src = iconPath + iconColors[i%iconColors.length]+ "_MarkerA.png"; //assign icon_image
+
                     $scope.patrolsPresent.push(obj);
                 }
                 console.log($scope.patrolsPresent);
-
-                for(var i = 0; i< data.data.length; i++){
-                    var arr = [];
-                    arr.push(data.data[i].Latitude);
-                    arr.push(data.data[i].Longhitude);
-                    arr.push(data.data[i].Time);
-                    arr.push(data.data[i].UserID);
-                    $scope.locations.push(arr);
-                }
-                if($scope.locations.length == 0){
+                if(data.data.length == 0){
                     $('#noLocMsg').show();
                     $('#map1').hide();
                 }else{
                     $('#noLocMsg').hide();
                     $('#map1').show();
  
-                    $scope.markers = [];
-                    for (var i = 0; i < $scope.locations.length;i++){
-                        var loc = {
-                            id: i, lat: $scope.locations[i][0], lng: $scope.locations[i][1], time: $scope.locations[i][2]
-                        }
-                        $scope.markers.push(loc);
-                    }
-                    $scope.markers.sort(compare);
-                    $scope.path =  $scope.markers.map(function(marker){
-                        return [marker.lat,marker.lng];
-                    });
-                    var time_from = addTimes($scope.markers[0].time.split("T")[1].split("Z")[0],"08:00:00" );
-                    var time_to = addTimes($scope.markers[$scope.markers.length-1].time.split("T")[1].split("Z")[0],"08:00:00" );
-                    $("#time_from").val(time_from);
-                    $("#time_to").val(time_to);
 
+                    if($scope.time_change == false){
+                        var time_from = addTimes(data.data[0].Time.split("T")[1].split("Z")[0],"08:00:00" );
+                        var time_to = addTimes(data.data[data.data.length-1].Time.split("T")[1].split("Z")[0],"08:00:00" );
+                        $("#time_from").val(time_from);
+                        $("#time_to").val(time_to);
+                    }
+                    
+                    console.log($scope.paths);
                     var pathCoordinates = new Array();
-                    var coloredMarkers = new Array();
                     for(var j = 0; j<Object.keys($scope.paths).length;j++){
                          var coordinates = new Array();
                          var colorMarker = new Array();
                         for(i=0;i<$scope.paths[Object.keys($scope.paths)[j]].length;i++){  
-                          var point =new google.maps.LatLng($scope.paths[Object.keys($scope.paths)[j]][i].Latitude,$scope.paths[Object.keys($scope.paths)[j]][i].Longhitude);
-                          coordinates.push(point);   
+                            if(!$scope.time_change){
+                                var point =new google.maps.LatLng($scope.paths[Object.keys($scope.paths)[j]][i].Latitude,$scope.paths[Object.keys($scope.paths)[j]][i].Longhitude);
+                                coordinates.push(point); 
+                            }else {
+                                // console.log( addTimes($scope.paths[Object.keys($scope.paths)[j]][i].Time.split("T")[1].split("Z")[0], "08:00:00" ) +" , "+$("#time_to").val());
+                                if(addTimes($scope.paths[Object.keys($scope.paths)[j]][i].Time.split("T")[1].split("Z")[0],"08:00:00" ) <= $("#time_to").val() &&
+                                    addTimes($scope.paths[Object.keys($scope.paths)[j]][i].Time.split("T")[1].split("Z")[0],"08:00:00" ) >= $("#time_from").val()){
+                                     var point =new google.maps.LatLng($scope.paths[Object.keys($scope.paths)[j]][i].Latitude,$scope.paths[Object.keys($scope.paths)[j]][i].Longhitude);
+                                        coordinates.push(point); 
+                                        console.log("location in");
+                                }else{
+                                    console.log("rejected a location");
+                                }
+                            }
                         }   
                         for(i = 0;i< coordinates.length;i++){
-                            var beachMarker = new google.maps.Marker({
-                              position: coordinates[i],
-                              icon: new Image().src = iconPath + iconColors[j%iconColors.length]+ "_MarkerA.png",
-                            });
-                            // var infoWindow = new google.maps.InfoWindow();
-                            // google.maps.event.addListener(beachMarker, 'mouseover', function() {
-                            //     infoWindow.setContent(j.toString());
-                            //     infoWindow.open($scope.map, beachMarker);
-                            //     });
-                            // google.maps.event.addListener(beachMarker, 'mouseout', function() {infoWindow.close();});
-                            colorMarker.push(beachMarker);
+                            if($scope.showPath){
+                                var beachMarker = new google.maps.Marker({
+                                  position: coordinates[i],
+                                  icon: new Image().src = iconPath + iconColors[j%iconColors.length]+ "_MarkerA.png",
+                                });
+                                // var infoWindow = new google.maps.InfoWindow();
+                                // google.maps.event.addListener(beachMarker, 'mouseover', function() {
+                                //     infoWindow.setContent(j.toString());
+                                //     infoWindow.open($scope.map, beachMarker);
+                                //     });
+                                // google.maps.event.addListener(beachMarker, 'mouseout', function() {infoWindow.close();});
+                                colorMarker.push(beachMarker);
+                            }
                         }
                         pathCoordinates.push(coordinates);
-                        coloredMarkers.push(colorMarker);
+                        $scope.coloredMarkers.push(colorMarker);
                     }
 
                     NgMap.getMap({id:'map1'}).then(function(map) {
-                        for(var i = 0; i< coloredMarkers.length;i++){
-                            for(var j=0; j< coloredMarkers[i].length;j++){
-                                    coloredMarkers[i][j].setMap(map);
-                                    var marker = coloredMarkers[i][j];
-                                    
+                        if($scope.showReport)showReportMarker($scope.companyReports,map,$scope.paths,$scope.reportMarkers);
+                        for(var i = 0; i< $scope.coloredMarkers.length;i++){
+                            console.log($scope.coloredMarkers[i].length);
+                            for(var j=0; j< $scope.coloredMarkers[i].length;j++){
+                                    $scope.coloredMarkers[i][j].setMap(map);
                             }
                         }
                     });
-
-                    var coloredPaths = new Array();
                     for(i = 0; i< pathCoordinates.length;i++){
                         var flightPath = new google.maps.Polyline({
                          path: pathCoordinates[i],
@@ -197,13 +299,13 @@
                          strokeOpacity: 1.0,
                          strokeWeight: 2
                          });
-                        coloredPaths.push(flightPath);
+                        $scope.coloredPaths.push(flightPath);
                     }
 
 
                      NgMap.getMap({id:'map1'}).then(function(map) {
-                            for(i = 0;i< coloredPaths.length;i++){
-                                coloredPaths[i].setMap(map);
+                            for(i = 0;i< $scope.coloredPaths.length;i++){
+                                $scope.coloredPaths[i].setMap(map);
                             }
                           google.maps.event.trigger(map, 'resize');
                     });
@@ -233,6 +335,15 @@
         }
         return null;
     }
+
+
+     function getDate(timestamp){
+        return(timestamp.split("T")[0]);
+     }
+     function getTime(timestamp){
+        return(timestamp.split("T")[1]);
+     }
+
     function addTimes (startTime, endTime) {
       var times = [ 0, 0, 0 ]
       var max = times.length
