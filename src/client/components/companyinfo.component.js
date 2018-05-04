@@ -50,6 +50,7 @@
                         if(!data){
                             return Materialize.toast("No Verified users",2500);
                         }
+                        $scope.guards = new Array();
                         $scope.guards = data.data;
                         $scope.guards.sort(compare);
                         for(var i = 0; i < $scope.companyReports.length; i++){
@@ -59,6 +60,7 @@
                                 }
                             }
                         }
+                        $scope.updateLocation();
                     },function(err){
                         return Materialize.toast("Error in getting verified users. Please try again!",2500);
                     });
@@ -124,7 +126,7 @@
 
         function showReportMarker(reports, map, paths,markers){
         for(var i=0; i<reports.length;i++){
-            if (reports[i].DateSubmitted.split("T")[0] == "2018-04-27"){
+            if (reports[i].DateSubmitted.split("T")[0] == $('#date').val()){
                 console.log(reports[i]);
                 console.log(paths[reports[i].UserID]);
                 for(var j=0;j<paths[reports[i].UserID].length-1;j++){
@@ -325,7 +327,6 @@
                 return Materialize.Toast("Error in getting User info",2500);
             })
         } 
-        $scope.updateLocation();
     }
      function findObjectByKey(array, key, value) {
         for (var i = 0; i < array.length; i++) {
@@ -365,7 +366,7 @@
         times[i] = a[i] + b[i]
       }
 
-      var hours = times[0]
+      var hours = times[0] % 24
       var minutes = times[1]
       var seconds = times[2]
 

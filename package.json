@@ -5,6 +5,7 @@
   "main": "webpack.config.js",
   "scripts": {
     "dev": "nodemon src/server/server.js",
+    "start": "nodemon src/server/server.js",
     "build": "webpack -w"
   },
   "repository": {
