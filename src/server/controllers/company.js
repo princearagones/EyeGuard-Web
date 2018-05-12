@@ -76,6 +76,25 @@ exports.getCompanyByUsername = function(req, res, next){
     }
 }
 
+exports.getReportType = function(req, res, next){
+	db.query("SELECT * FROM ReportType WHERE CompanyID = ?",
+        [req.params.company_id],
+        function (err, rows) {
+            if (err) {
+                console.log(req, "ERROR", "MySQL Query Error");
+                return next(err);
+            }
+            if (rows.length === 0) {
+                console.log(req, "ERROR", "Error: Company "+req.params.company_id+" not found");
+                res.send(rows);
+            } else {
+                console.log(req, "SUCCESS", "RETRIEVED report types of "+req.params.company_id);
+                res.send(rows);
+            }
+        }
+    );
+}
+
 exports.getOneByUsername = function(req, res, next){
 	db.query("SELECT * FROM Company WHERE Name = ?",
         [req.params.company_name],

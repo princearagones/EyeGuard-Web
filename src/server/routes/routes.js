@@ -18,8 +18,12 @@ module.exports = (router) => {
     router.post('/api/user/add', 						    __.user.add);
     router.post('/api/user/delete',					        __.user.remove);
 
-    router.post('/api/report/add',						           __.report.add);
     router.get('/api/report/getRecentByCompany/:company_id',       __.report.getRecentByCompany);
+    router.get('/api/getReportType/:company_id',                   __.report.getReportType);
+    router.post('/api/report/add',                                 __.report.add);
+    router.post('/api/addReportType',                              __.report.addReportType);
+    router.put('/api/editReportType/:id',                          __.report.editReportType);
+    router.del('/api/deleteReportType/:id',                     __.report.deleteReportType);
 
     router.post('/api/location/add',                               __.location.add);
     router.get('/api/location/getByCompany/:company_id/:date',     __.location.getByCompany);
@@ -36,6 +40,7 @@ module.exports = (router) => {
     router.get('/api/companyAllCode',					__.company.getAllCode);
     router.get('/api/company/:company_name',			__.company.getOneByUsername);
     router.post('/api/company/add',						__.company.add);
+
 
     router.get('/dashboard',							__.user.checkSession);
 

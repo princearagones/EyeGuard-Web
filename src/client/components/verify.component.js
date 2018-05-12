@@ -3,7 +3,7 @@
     'use strict';
 
     angular
-        .module('app')
+        .module('app',['ngRoute'])
         .component('verifyComponent', {
             template: require('./verify.html'),
             controller: VerifyController,

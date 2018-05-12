@@ -1,0 +1,94 @@
+
+<div>
+  <h3>Report type count: {{reportType.length}} / 6</h3> 
+</div>
+<div class="row">
+    <div class="col s12 m4" ng-repeat="type in reportType">
+      <div class="card light-blue lighten-1">
+        <div class="card-content white-text">
+          <span class="card-title">{{type.Name}}</span>
+        </div>
+        <div class="center-align white">
+          <img  ng-src="/public/images/report_icons/{{type.Image}}" alt="{{type.Image}}" height="100" width="100">
+        </div>
+        <div class="card-action">
+          <a id="edit{{type.ID}}"class="green white-text btn waves-effect waves-light col s6" onclick="return false" >Edit Details</a>
+          <a id="delete{{type.ID}}" class="red white-text btn waves-effect waves-light col s6" onclick="return false" >Delete Type</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Structure -->
+  <div id="modal1" class="modal">
+    <div class="modal-content">
+      <h4>Add Report Type</h4>
+      <form class="col s12">
+          <div class="row">
+            <div class="input-field col s12">
+              <i class="material-icons prefix">report</i>
+              <input id="reportName" type="text">
+              <label for="reportName">Report Name</label>
+            </div>
+          </div>
+          <div class="center-align">
+            <p>Choose image icon: </p>
+            <div>
+            <div class="col s6">
+                <img src="/public/images/report_icons/broken.png" height="50" width="50" /> a
+                <img src="/public/images/report_icons/car_accident.png" height="50" width="50" /> b
+                <img src="/public/images/report_icons/missing.png" height="50" width="50" /> c
+                <img src="/public/images/report_icons/parking.jpg" height="50" width="50" /> d
+                <img src="/public/images/report_icons/slider_icon8.png" height="50" width="50" /> e
+                <img src="/public/images/report_icons/others.png" height="50" width="50" /> f
+            </div>
+            <div class="col s6">
+                <div class="button col s3">
+                    <input type="radio" name="reportTypeGroup" value="broken.png" id="a" />
+                    <label for="a">a</label>
+                </div>
+                <div class="button col s3">
+                    <input type="radio" name="reportTypeGroup" value="car_accident.png" id="b" />
+                    <label for="b">b</label>
+                </div>
+                <div class="button col s3">
+                    <input type="radio" name="reportTypeGroup" value="missing.png" id="c" />
+                    <label for="c">c</label>
+                </div>
+                  <div class="button col s3">
+                    <input type="radio" name="reportTypeGroup" value="parking.jpg" id="d" />
+                    <label for="d">d</label>
+                </div>
+                <div class="button col s3">
+                    <input type="radio" name="reportTypeGroup" value="slider_icon8.png" id="e" />
+                    <label for="e">e</label>
+                </div>
+                <div class="button col s3">
+                    <input type="radio" name="reportTypeGroup" value="others.png" id="f" />
+                    <label for="f">f</label>
+                </div>
+            </div>
+           </div>
+          </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+      <a id="addReportType" onclick="return false" class="modal-close waves-effect waves-green btn-flat">Add</a>
+    </div>
+  </div>
+
+  <div class="fixed-action-btn">
+  <a class="btn-floating btn-large red">
+    <i data-target='modal1' modal class="large material-icons" onclick="return false">add</i>
+  </a>
+</div>
+
+<script type="text/javascript">
+  $(document).ready(function(){
+    $('.modal').modal();
+    $('.fixed-action-btn').floatingActionButton();
+  });
+</script>
+
+<style>
+</style>

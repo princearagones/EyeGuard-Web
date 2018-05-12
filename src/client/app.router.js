@@ -95,6 +95,12 @@
                 component: 'companyinfoComponent'
             })
 
+            .state({
+                name: 'admin.modifyReport',
+                url: '/modifyReport',
+                component: 'modifyReportComponent'
+            })
+
         $urlRouterProvider.otherwise('/');
     }
 })();
